@@ -5,6 +5,7 @@ import com.deepak.blog.exceptions.ResourceNotFoundException;
 import com.deepak.blog.payloads.UserDto;
 import com.deepak.blog.repositories.UserRepo;
 import com.deepak.blog.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ModelMapper modelMapper;
     public UserDto createUser(UserDto userDto) {
         User user=this.dtoToUser(userDto);
         User savedUser=this.userRepo.save(user);
@@ -54,21 +57,25 @@ public class UserServiceImpl implements UserService {
     }
 
     private User dtoToUser(UserDto userDto){
-        User user=new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setAbout(userDto.getAbout());
-        user.setPassword(userDto.getPassword());
+//        User user=new User();
+//        user.setId(userDto.getId());
+//        user.setName(userDto.getName());
+//        user.setEmail(userDto.getEmail());
+//        user.setAbout(userDto.getAbout());
+//        user.setPassword(userDto.getPassword());
+//        return user;
+        User user=this.modelMapper.map(userDto,User.class);
         return user;
     }
     public  UserDto userToDto(User user){
-        UserDto userDto=new UserDto();
-        userDto.setId(user.getId());
-        userDto.setAbout(user.getAbout());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
+//        UserDto userDto=new UserDto();
+//        userDto.setId(user.getId());
+//        userDto.setAbout(user.getAbout());
+//        userDto.setName(user.getName());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setPassword(user.getPassword());
+//        return userDto;
+        UserDto userDto=this.modelMapper.map(user,UserDto.class);
         return userDto;
     }
 }
